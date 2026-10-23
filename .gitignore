@@ -1,0 +1,8 @@
+ai_text_detector_env/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.env
+.cache/
+huggingface/
