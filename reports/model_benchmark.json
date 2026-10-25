@@ -1,0 +1,1114 @@
+{
+  "dataset": "Jinyan1/COLING_2025_MGT_en",
+  "timestamp_utc": "2026-10-25T10:22:56.632159+00:00",
+  "seed": 137,
+  "dataset_rows": 872525,
+  "label_mapping": {
+    "human": 0,
+    "ai_generated": 1,
+    "class_order": [
+      "human",
+      "ai_generated"
+    ]
+  },
+  "protocol": {
+    "development_sources": [
+      "mage",
+      "m4gt"
+    ],
+    "external_test_source": "hc3",
+    "validation": "one deterministic StratifiedGroupKFold sub_source/source group held out from mage+m4gt",
+    "calibration": "separate deterministic group fold from development data, used only to fit Platt scaling",
+    "test": "HC3 source held entirely out from training, hyperparameter selection, calibration fitting, and threshold selection",
+    "test_limit": 15000,
+    "exact_duplicate_removal": "SHA-256 across sampled partitions; earlier partition retained",
+    "near_duplicates": "not detected; source groups and exact hashes are used",
+    "threshold_selection": {
+      "human_false_positive_target": 0.05,
+      "ai_false_negative_rate_target": 0.1,
+      "confidence_bound": "one-sided 95% Wilson upper bound on validation data",
+      "minimum_verdicts_per_class": 100,
+      "minimum_validation_coverage": 0.1,
+      "selection_metric_order": [
+        "validation AI recall",
+        "validation coverage",
+        "ROC AUC",
+        "macro F1"
+      ]
+    }
+  },
+  "split_sizes": {
+    "train": {
+      "total": 19969,
+      "human": 6788,
+      "ai_generated": 13181,
+      "source_counts": {
+        "mage": 9856,
+        "m4gt": 10113
+      }
+    },
+    "calibration": {
+      "total": 4999,
+      "human": 1897,
+      "ai_generated": 3102,
+      "source_counts": {
+        "mage": 2643,
+        "m4gt": 2356
+      }
+    },
+    "validation": {
+      "total": 8000,
+      "human": 2515,
+      "ai_generated": 5485,
+      "source_counts": {
+        "mage": 4743,
+        "m4gt": 3257
+      }
+    },
+    "test": {
+      "total": 14825,
+      "human": 10012,
+      "ai_generated": 4813,
+      "source_counts": {
+        "hc3": 14825
+      }
+    }
+  },
+  "duplicate_counts_removed": {
+    "train": 31,
+    "calibration": 1,
+    "validation": 0,
+    "test": 175
+  },
+  "validation_source_counts": {
+    "mage": 4743,
+    "m4gt": 3257
+  },
+  "validation_sub_source_counts": {
+    "cmv": 1655,
+    "outfox": 3257,
+    "yelp": 3088
+  },
+  "candidates": [
+    {
+      "name": "word_lr_c1_unweighted",
+      "feature_set": "word",
+      "classifier": "logistic_regression",
+      "c": 1.0,
+      "class_weight": null,
+      "validation": {
+        "score_type": "uncalibrated oriented logistic-regression decision score; not a probability",
+        "default_zero_threshold": {
+          "accuracy": 0.69325,
+          "balanced_accuracy": 0.5599235942594207,
+          "macro_f1": 0.5479071083593339,
+          "ai_precision": 0.7149340519075309,
+          "ai_recall": 0.9190519598906107,
+          "roc_auc": 0.7460037949151037,
+          "confusion_matrix": [
+            [
+              505,
+              2010
+            ],
+            [
+              444,
+              5041
+            ]
+          ],
+          "confusion_matrix_class_order": [
+            "human",
+            "ai_generated"
+          ]
+        },
+        "risk_controlled": {
+          "thresholds": {
+            "human_score_at_or_below": 0.08141351388796303,
+            "ai_score_at_or_above": 1.6587073827874896,
+            "target_human_false_positive_rate": 0.05,
+            "target_ai_false_negative_rate": 0.1,
+            "confidence_bound": "one-sided 95% Wilson upper bound on validation data",
+            "minimum_verdict_count": 100,
+            "targets_met": true,
+            "human_gate_met": true,
+            "ai_gate_met": true,
+            "thresholds_overlap_on_validation": false,
+            "validation_decisive_coverage": 0.387125,
+            "validation_human_false_positive_rate": 0.04254473161033797,
+            "validation_human_false_positive_upper_bound": 0.0496707276488372,
+            "validation_ai_false_negative_count": 511,
+            "validation_ai_denominator": 5485,
+            "validation_ai_false_negative_rate": 0.09316317228805834,
+            "validation_ai_false_negative_upper_bound": 0.09982071223505813,
+            "validation_human_verdict_count": 1101,
+            "validation_human_verdict_precision": 0.5358764759309719,
+            "validation_ai_recall": 0.34439380127620783
+          },
+          "verdict_counts": {
+            "human": 1101,
+            "ai_generated": 1996,
+            "inconclusive": 4903
+          },
+          "coverage": 0.38712500000000005,
+          "inconclusive_fraction": 0.612875,
+          "human_false_positive_count": 107,
+          "human_denominator": 2515,
+          "human_false_positive_rate": 0.04254473161033797,
+          "human_false_positive_wilson_95_percent_interval": [
+            0.035329695660568074,
+            0.051155088071190145
+          ],
+          "specificity_for_ai_verdict": 0.957455268389662,
+          "ai_detected_count": 1889,
+          "ai_denominator": 5485,
+          "ai_recall": 0.34439380127620783,
+          "ai_precision": 0.9463927855711423,
+          "ai_generated_labelled_human_count": 511,
+          "ai_generated_human_verdict_rate": 0.09316317228805834,
+          "human_correct_count": 590,
+          "human_recall": 0.2345924453280318,
+          "human_verdict_precision": 0.5358764759309719,
+          "decisive_error_count": 618,
+          "decisive_error_rate": 0.19954794962867292,
+          "balanced_accuracy_on_decisive": 0.8167841343854615
+        }
+      },
+      "eligible_for_selection": true
+    },
+    {
+      "name": "word_lr_c0.1_balanced",
+      "feature_set": "word",
+      "classifier": "logistic_regression",
+      "c": 0.1,
+      "class_weight": "balanced",
+      "validation": {
+        "score_type": "uncalibrated oriented logistic-regression decision score; not a probability",
+        "default_zero_threshold": {
+          "accuracy": 0.651375,
+          "balanced_accuracy": 0.6198113053674308,
+          "macro_f1": 0.6129383173874224,
+          "ai_precision": 0.7676727561556791,
+          "ai_recall": 0.704831358249772,
+          "roc_auc": 0.6939220465719811,
+          "confusion_matrix": [
+            [
+              1345,
+              1170
+            ],
+            [
+              1619,
+              3866
+            ]
+          ],
+          "confusion_matrix_class_order": [
+            "human",
+            "ai_generated"
+          ]
+        },
+        "risk_controlled": {
+          "thresholds": {
+            "human_score_at_or_below": -0.2738379232792893,
+            "ai_score_at_or_above": 0.374558831624865,
+            "target_human_false_positive_rate": 0.05,
+            "target_ai_false_negative_rate": 0.1,
+            "confidence_bound": "one-sided 95% Wilson upper bound on validation data",
+            "minimum_verdict_count": 100,
+            "targets_met": true,
+            "human_gate_met": true,
+            "ai_gate_met": true,
+            "thresholds_overlap_on_validation": false,
+            "validation_decisive_coverage": 0.33775,
+            "validation_human_false_positive_rate": 0.04254473161033797,
+            "validation_human_false_positive_upper_bound": 0.0496707276488372,
+            "validation_ai_false_negative_count": 511,
+            "validation_ai_denominator": 5485,
+            "validation_ai_false_negative_rate": 0.09316317228805834,
+            "validation_ai_false_negative_upper_bound": 0.09982071223505813,
+            "validation_human_verdict_count": 908,
+            "validation_human_verdict_precision": 0.43722466960352424,
+            "validation_ai_recall": 0.30756608933454876
+          },
+          "verdict_counts": {
+            "human": 908,
+            "ai_generated": 1794,
+            "inconclusive": 5298
+          },
+          "coverage": 0.33775,
+          "inconclusive_fraction": 0.66225,
+          "human_false_positive_count": 107,
+          "human_denominator": 2515,
+          "human_false_positive_rate": 0.04254473161033797,
+          "human_false_positive_wilson_95_percent_interval": [
+            0.035329695660568074,
+            0.051155088071190145
+          ],
+          "specificity_for_ai_verdict": 0.957455268389662,
+          "ai_detected_count": 1687,
+          "ai_denominator": 5485,
+          "ai_recall": 0.30756608933454876,
+          "ai_precision": 0.9403567447045708,
+          "ai_generated_labelled_human_count": 511,
+          "ai_generated_human_verdict_rate": 0.09316317228805834,
+          "human_correct_count": 397,
+          "human_recall": 0.15785288270377734,
+          "human_verdict_precision": 0.43722466960352424,
+          "decisive_error_count": 618,
+          "decisive_error_rate": 0.22871946706143598,
+          "balanced_accuracy_on_decisive": 0.7776071681326459
+        }
+      },
+      "eligible_for_selection": true
+    },
+    {
+      "name": "word_lr_c1_balanced",
+      "feature_set": "word",
+      "classifier": "logistic_regression",
+      "c": 1.0,
+      "class_weight": "balanced",
+      "validation": {
+        "score_type": "uncalibrated oriented logistic-regression decision score; not a probability",
+        "default_zero_threshold": {
+          "accuracy": 0.702875,
+          "balanced_accuracy": 0.6531699502166581,
+          "macro_f1": 0.6538383899669638,
+          "ai_precision": 0.7812160694896851,
+          "ai_recall": 0.7870556061987238,
+          "roc_auc": 0.7553963366564515,
+          "confusion_matrix": [
+            [
+              1306,
+              1209
+            ],
+            [
+              1168,
+              4317
+            ]
+          ],
+          "confusion_matrix_class_order": [
+            "human",
+            "ai_generated"
+          ]
+        },
+        "risk_controlled": {
+          "thresholds": {
+            "human_score_at_or_below": -0.48139285778863616,
+            "ai_score_at_or_above": 1.1188242806040352,
+            "target_human_false_positive_rate": 0.05,
+            "target_ai_false_negative_rate": 0.1,
+            "confidence_bound": "one-sided 95% Wilson upper bound on validation data",
+            "minimum_verdict_count": 100,
+            "targets_met": true,
+            "human_gate_met": true,
+            "ai_gate_met": true,
+            "thresholds_overlap_on_validation": false,
+            "validation_decisive_coverage": 0.4055,
+            "validation_human_false_positive_rate": 0.04254473161033797,
+            "validation_human_false_positive_upper_bound": 0.0496707276488372,
+            "validation_ai_false_negative_count": 511,
+            "validation_ai_denominator": 5485,
+            "validation_ai_false_negative_rate": 0.09316317228805834,
+            "validation_ai_false_negative_upper_bound": 0.09982071223505813,
+            "validation_human_verdict_count": 1139,
+            "validation_human_verdict_precision": 0.5513608428446005,
+            "validation_ai_recall": 0.36426618049225157
+          },
+          "verdict_counts": {
+            "human": 1139,
+            "ai_generated": 2105,
+            "inconclusive": 4756
+          },
+          "coverage": 0.40549999999999997,
+          "inconclusive_fraction": 0.5945,
+          "human_false_positive_count": 107,
+          "human_denominator": 2515,
+          "human_false_positive_rate": 0.04254473161033797,
+          "human_false_positive_wilson_95_percent_interval": [
+            0.035329695660568074,
+            0.051155088071190145
+          ],
+          "specificity_for_ai_verdict": 0.957455268389662,
+          "ai_detected_count": 1998,
+          "ai_denominator": 5485,
+          "ai_recall": 0.36426618049225157,
+          "ai_precision": 0.9491686460807601,
+          "ai_generated_labelled_human_count": 511,
+          "ai_generated_human_verdict_rate": 0.09316317228805834,
+          "human_correct_count": 628,
+          "human_recall": 0.24970178926441353,
+          "human_verdict_precision": 0.5513608428446005,
+          "decisive_error_count": 618,
+          "decisive_error_rate": 0.1905055487053021,
+          "balanced_accuracy_on_decisive": 0.8253774845928805
+        }
+      },
+      "eligible_for_selection": true
+    },
+    {
+      "name": "word_lr_c10_balanced",
+      "feature_set": "word",
+      "classifier": "logistic_regression",
+      "c": 10.0,
+      "class_weight": "balanced",
+      "validation": {
+        "score_type": "uncalibrated oriented logistic-regression decision score; not a probability",
+        "default_zero_threshold": {
+          "accuracy": 0.71025,
+          "balanced_accuracy": 0.6412166925520714,
+          "macro_f1": 0.646742840980025,
+          "ai_precision": 0.7680717792449636,
+          "ai_recall": 0.8271649954421149,
+          "roc_auc": 0.7556534629959532,
+          "confusion_matrix": [
+            [
+              1145,
+              1370
+            ],
+            [
+              948,
+              4537
+            ]
+          ],
+          "confusion_matrix_class_order": [
+            "human",
+            "ai_generated"
+          ]
+        },
+        "risk_controlled": {
+          "thresholds": {
+            "human_score_at_or_below": -0.7437501027147626,
+            "ai_score_at_or_above": 2.8790649165954,
+            "target_human_false_positive_rate": 0.05,
+            "target_ai_false_negative_rate": 0.1,
+            "confidence_bound": "one-sided 95% Wilson upper bound on validation data",
+            "minimum_verdict_count": 100,
+            "targets_met": true,
+            "human_gate_met": true,
+            "ai_gate_met": true,
+            "thresholds_overlap_on_validation": false,
+            "validation_decisive_coverage": 0.386125,
+            "validation_human_false_positive_rate": 0.04254473161033797,
+            "validation_human_false_positive_upper_bound": 0.0496707276488372,
+            "validation_ai_false_negative_count": 511,
+            "validation_ai_denominator": 5485,
+            "validation_ai_false_negative_rate": 0.09316317228805834,
+            "validation_ai_false_negative_upper_bound": 0.09982071223505813,
+            "validation_human_verdict_count": 1202,
+            "validation_human_verdict_precision": 0.5748752079866889,
+            "validation_ai_recall": 0.3245214220601641
+          },
+          "verdict_counts": {
+            "human": 1202,
+            "ai_generated": 1887,
+            "inconclusive": 4911
+          },
+          "coverage": 0.38612500000000005,
+          "inconclusive_fraction": 0.613875,
+          "human_false_positive_count": 107,
+          "human_denominator": 2515,
+          "human_false_positive_rate": 0.04254473161033797,
+          "human_false_positive_wilson_95_percent_interval": [
+            0.035329695660568074,
+            0.051155088071190145
+          ],
+          "specificity_for_ai_verdict": 0.957455268389662,
+          "ai_detected_count": 1780,
+          "ai_denominator": 5485,
+          "ai_recall": 0.3245214220601641,
+          "ai_precision": 0.9432962374138845,
+          "ai_generated_labelled_human_count": 511,
+          "ai_generated_human_verdict_rate": 0.09316317228805834,
+          "human_correct_count": 691,
+          "human_recall": 0.2747514910536779,
+          "human_verdict_precision": 0.5748752079866889,
+          "decisive_error_count": 618,
+          "decisive_error_rate": 0.20006474587245063,
+          "balanced_accuracy_on_decisive": 0.8214340412357826
+        }
+      },
+      "eligible_for_selection": true
+    },
+    {
+      "name": "character_lr_c1_balanced",
+      "feature_set": "character",
+      "classifier": "logistic_regression",
+      "c": 1.0,
+      "class_weight": "balanced",
+      "validation": {
+        "score_type": "uncalibrated oriented logistic-regression decision score; not a probability",
+        "default_zero_threshold": {
+          "accuracy": 0.699,
+          "balanced_accuracy": 0.6009329619366752,
+          "macro_f1": 0.6052911637427806,
+          "ai_precision": 0.73990332137845,
+          "ai_recall": 0.8650865998176845,
+          "roc_auc": 0.7431344838897337,
+          "confusion_matrix": [
+            [
+              847,
+              1668
+            ],
+            [
+              740,
+              4745
+            ]
+          ],
+          "confusion_matrix_class_order": [
+            "human",
+            "ai_generated"
+          ]
+        },
+        "risk_controlled": {
+          "thresholds": {
+            "human_score_at_or_below": -0.16787571194819462,
+            "ai_score_at_or_above": 1.286617786621673,
+            "target_human_false_positive_rate": 0.05,
+            "target_ai_false_negative_rate": 0.1,
+            "confidence_bound": "one-sided 95% Wilson upper bound on validation data",
+            "minimum_verdict_count": 100,
+            "targets_met": true,
+            "human_gate_met": true,
+            "ai_gate_met": true,
+            "thresholds_overlap_on_validation": false,
+            "validation_decisive_coverage": 0.393375,
+            "validation_human_false_positive_rate": 0.04254473161033797,
+            "validation_human_false_positive_upper_bound": 0.0496707276488372,
+            "validation_ai_false_negative_count": 510,
+            "validation_ai_denominator": 5485,
+            "validation_ai_false_negative_rate": 0.09298085688240657,
+            "validation_ai_false_negative_upper_bound": 0.09963282232890333,
+            "validation_human_verdict_count": 1143,
+            "validation_human_verdict_precision": 0.5538057742782152,
+            "validation_ai_recall": 0.34585232452142206
+          },
+          "verdict_counts": {
+            "human": 1143,
+            "ai_generated": 2004,
+            "inconclusive": 4853
+          },
+          "coverage": 0.39337500000000003,
+          "inconclusive_fraction": 0.606625,
+          "human_false_positive_count": 107,
+          "human_denominator": 2515,
+          "human_false_positive_rate": 0.04254473161033797,
+          "human_false_positive_wilson_95_percent_interval": [
+            0.035329695660568074,
+            0.051155088071190145
+          ],
+          "specificity_for_ai_verdict": 0.957455268389662,
+          "ai_detected_count": 1897,
+          "ai_denominator": 5485,
+          "ai_recall": 0.34585232452142206,
+          "ai_precision": 0.9466067864271457,
+          "ai_generated_labelled_human_count": 510,
+          "ai_generated_human_verdict_rate": 0.09298085688240657,
+          "human_correct_count": 633,
+          "human_recall": 0.25168986083499006,
+          "human_verdict_precision": 0.5538057742782152,
+          "decisive_error_count": 617,
+          "decisive_error_rate": 0.19605973943438196,
+          "balanced_accuracy_on_decisive": 0.8217616973017887
+        }
+      },
+      "eligible_for_selection": true
+    },
+    {
+      "name": "hybrid_lr_c1_balanced",
+      "feature_set": "word_and_character",
+      "classifier": "logistic_regression",
+      "c": 1.0,
+      "class_weight": "balanced",
+      "validation": {
+        "score_type": "uncalibrated oriented logistic-regression decision score; not a probability",
+        "default_zero_threshold": {
+          "accuracy": 0.712875,
+          "balanced_accuracy": 0.6225699585531478,
+          "macro_f1": 0.6295010028131189,
+          "ai_precision": 0.7526148969889065,
+          "ai_recall": 0.8658158614402917,
+          "roc_auc": 0.7694484324680902,
+          "confusion_matrix": [
+            [
+              954,
+              1561
+            ],
+            [
+              736,
+              4749
+            ]
+          ],
+          "confusion_matrix_class_order": [
+            "human",
+            "ai_generated"
+          ]
+        },
+        "risk_controlled": {
+          "thresholds": {
+            "human_score_at_or_below": -0.18928161493545714,
+            "ai_score_at_or_above": 1.518478614967436,
+            "target_human_false_positive_rate": 0.05,
+            "target_ai_false_negative_rate": 0.1,
+            "confidence_bound": "one-sided 95% Wilson upper bound on validation data",
+            "minimum_verdict_count": 100,
+            "targets_met": true,
+            "human_gate_met": true,
+            "ai_gate_met": true,
+            "thresholds_overlap_on_validation": false,
+            "validation_decisive_coverage": 0.43175,
+            "validation_human_false_positive_rate": 0.04254473161033797,
+            "validation_human_false_positive_upper_bound": 0.0496707276488372,
+            "validation_ai_false_negative_count": 507,
+            "validation_ai_denominator": 5485,
+            "validation_ai_false_negative_rate": 0.09243391066545123,
+            "validation_ai_false_negative_upper_bound": 0.0990691074169561,
+            "validation_human_verdict_count": 1237,
+            "validation_human_verdict_precision": 0.5901374292643492,
+            "validation_ai_recall": 0.3846855059252507
+          },
+          "verdict_counts": {
+            "human": 1237,
+            "ai_generated": 2217,
+            "inconclusive": 4546
+          },
+          "coverage": 0.43174999999999997,
+          "inconclusive_fraction": 0.56825,
+          "human_false_positive_count": 107,
+          "human_denominator": 2515,
+          "human_false_positive_rate": 0.04254473161033797,
+          "human_false_positive_wilson_95_percent_interval": [
+            0.035329695660568074,
+            0.051155088071190145
+          ],
+          "specificity_for_ai_verdict": 0.957455268389662,
+          "ai_detected_count": 2110,
+          "ai_denominator": 5485,
+          "ai_recall": 0.3846855059252507,
+          "ai_precision": 0.9517365809652684,
+          "ai_generated_labelled_human_count": 507,
+          "ai_generated_human_verdict_rate": 0.09243391066545123,
+          "human_correct_count": 730,
+          "human_recall": 0.29025844930417494,
+          "human_verdict_precision": 0.5901374292643492,
+          "decisive_error_count": 614,
+          "decisive_error_rate": 0.1777649102489867,
+          "balanced_accuracy_on_decisive": 0.8392146013406506
+        }
+      },
+      "eligible_for_selection": true
+    },
+    {
+      "name": "word_svm_c1_balanced",
+      "feature_set": "word",
+      "classifier": "linear_svm",
+      "c": 1.0,
+      "class_weight": "balanced",
+      "validation": {
+        "score_type": "uncalibrated oriented logistic-regression decision score; not a probability",
+        "default_zero_threshold": {
+          "accuracy": 0.708125,
+          "balanced_accuracy": 0.63837521815325,
+          "macro_f1": 0.643829550016961,
+          "ai_precision": 0.7663172133919514,
+          "ai_recall": 0.826253418413856,
+          "roc_auc": 0.7458540280649739,
+          "confusion_matrix": [
+            [
+              1133,
+              1382
+            ],
+            [
+              953,
+              4532
+            ]
+          ],
+          "confusion_matrix_class_order": [
+            "human",
+            "ai_generated"
+          ]
+        },
+        "risk_controlled": {
+          "thresholds": {
+            "human_score_at_or_below": -0.2545808272676965,
+            "ai_score_at_or_above": 1.0187766548628479,
+            "target_human_false_positive_rate": 0.05,
+            "target_ai_false_negative_rate": 0.1,
+            "confidence_bound": "one-sided 95% Wilson upper bound on validation data",
+            "minimum_verdict_count": 100,
+            "targets_met": true,
+            "human_gate_met": true,
+            "ai_gate_met": true,
+            "thresholds_overlap_on_validation": false,
+            "validation_decisive_coverage": 0.362875,
+            "validation_human_false_positive_rate": 0.04254473161033797,
+            "validation_human_false_positive_upper_bound": 0.0496707276488372,
+            "validation_ai_false_negative_count": 511,
+            "validation_ai_denominator": 5485,
+            "validation_ai_false_negative_rate": 0.09316317228805834,
+            "validation_ai_false_negative_upper_bound": 0.09982071223505813,
+            "validation_human_verdict_count": 1183,
+            "validation_human_verdict_precision": 0.5680473372781065,
+            "validation_ai_recall": 0.2940747493163172
+          },
+          "verdict_counts": {
+            "human": 1183,
+            "ai_generated": 1720,
+            "inconclusive": 5097
+          },
+          "coverage": 0.36287499999999995,
+          "inconclusive_fraction": 0.637125,
+          "human_false_positive_count": 107,
+          "human_denominator": 2515,
+          "human_false_positive_rate": 0.04254473161033797,
+          "human_false_positive_wilson_95_percent_interval": [
+            0.035329695660568074,
+            0.051155088071190145
+          ],
+          "specificity_for_ai_verdict": 0.957455268389662,
+          "ai_detected_count": 1613,
+          "ai_denominator": 5485,
+          "ai_recall": 0.2940747493163172,
+          "ai_precision": 0.9377906976744186,
+          "ai_generated_labelled_human_count": 511,
+          "ai_generated_human_verdict_rate": 0.09316317228805834,
+          "human_correct_count": 672,
+          "human_recall": 0.2671968190854871,
+          "human_verdict_precision": 0.5680473372781065,
+          "decisive_error_count": 618,
+          "decisive_error_rate": 0.21288322425077505,
+          "balanced_accuracy_on_decisive": 0.8110303058873586
+        }
+      },
+      "eligible_for_selection": true
+    }
+  ],
+  "selection": {
+    "selected_candidate": "hybrid_lr_c1_balanced",
+    "status": "candidate met both validation risk targets and minimum validation coverage",
+    "eligible_candidate_count": 7,
+    "was_selected_using_test": false
+  },
+  "same_test_set_comparison": {
+    "baseline_candidate": "word_lr_c1_unweighted",
+    "selected_candidate": "hybrid_lr_c1_balanced",
+    "baseline": {
+      "score_type": "uncalibrated oriented logistic-regression decision score; not a probability",
+      "default_zero_threshold": {
+        "accuracy": 0.4806745362563238,
+        "balanced_accuracy": 0.5933938384680125,
+        "macro_f1": 0.47391865415565604,
+        "ai_precision": 0.37658227848101267,
+        "ai_recall": 0.9148140452939955,
+        "roc_auc": 0.7161890875350162,
+        "confusion_matrix": [
+          [
+            2723,
+            7289
+          ],
+          [
+            410,
+            4403
+          ]
+        ],
+        "confusion_matrix_class_order": [
+          "human",
+          "ai_generated"
+        ]
+      },
+      "risk_controlled": {
+        "thresholds": {
+          "human_score_at_or_below": 0.08141351388796303,
+          "ai_score_at_or_above": 1.6587073827874896,
+          "target_human_false_positive_rate": 0.05,
+          "target_ai_false_negative_rate": 0.1,
+          "confidence_bound": "one-sided 95% Wilson upper bound on validation data",
+          "minimum_verdict_count": 100,
+          "targets_met": true,
+          "human_gate_met": true,
+          "ai_gate_met": true,
+          "thresholds_overlap_on_validation": false,
+          "validation_decisive_coverage": 0.387125,
+          "validation_human_false_positive_rate": 0.04254473161033797,
+          "validation_human_false_positive_upper_bound": 0.0496707276488372,
+          "validation_ai_false_negative_count": 511,
+          "validation_ai_denominator": 5485,
+          "validation_ai_false_negative_rate": 0.09316317228805834,
+          "validation_ai_false_negative_upper_bound": 0.09982071223505813,
+          "validation_human_verdict_count": 1101,
+          "validation_human_verdict_precision": 0.5358764759309719,
+          "validation_ai_recall": 0.34439380127620783
+        },
+        "verdict_counts": {
+          "human": 3609,
+          "ai_generated": 1361,
+          "inconclusive": 9855
+        },
+        "coverage": 0.33524451939291733,
+        "inconclusive_fraction": 0.6647554806070827,
+        "human_false_positive_count": 388,
+        "human_denominator": 10012,
+        "human_false_positive_rate": 0.03875349580503396,
+        "human_false_positive_wilson_95_percent_interval": [
+          0.03514639107536015,
+          0.04271441193624381
+        ],
+        "specificity_for_ai_verdict": 0.961246504194966,
+        "ai_detected_count": 973,
+        "ai_denominator": 4813,
+        "ai_recall": 0.20216081446083523,
+        "ai_precision": 0.7149155033063923,
+        "ai_generated_labelled_human_count": 509,
+        "ai_generated_human_verdict_rate": 0.10575524620818616,
+        "human_correct_count": 3100,
+        "human_recall": 0.309628445864962,
+        "human_verdict_precision": 0.85896370185647,
+        "decisive_error_count": 897,
+        "decisive_error_rate": 0.18048289738430584,
+        "balanced_accuracy_on_decisive": 0.7726533385333483
+      }
+    },
+    "selected": {
+      "score_type": "uncalibrated oriented logistic-regression decision score; not a probability",
+      "default_zero_threshold": {
+        "accuracy": 0.7015851602023608,
+        "balanced_accuracy": 0.7465900881543436,
+        "macro_f1": 0.6961709961111473,
+        "ai_precision": 0.524212622930412,
+        "ai_recall": 0.8749220860170371,
+        "roc_auc": 0.851311005227137,
+        "confusion_matrix": [
+          [
+            6190,
+            3822
+          ],
+          [
+            602,
+            4211
+          ]
+        ],
+        "confusion_matrix_class_order": [
+          "human",
+          "ai_generated"
+        ]
+      },
+      "risk_controlled": {
+        "thresholds": {
+          "human_score_at_or_below": -0.18928161493545714,
+          "ai_score_at_or_above": 1.518478614967436,
+          "target_human_false_positive_rate": 0.05,
+          "target_ai_false_negative_rate": 0.1,
+          "confidence_bound": "one-sided 95% Wilson upper bound on validation data",
+          "minimum_verdict_count": 100,
+          "targets_met": true,
+          "human_gate_met": true,
+          "ai_gate_met": true,
+          "thresholds_overlap_on_validation": false,
+          "validation_decisive_coverage": 0.43175,
+          "validation_human_false_positive_rate": 0.04254473161033797,
+          "validation_human_false_positive_upper_bound": 0.0496707276488372,
+          "validation_ai_false_negative_count": 507,
+          "validation_ai_denominator": 5485,
+          "validation_ai_false_negative_rate": 0.09243391066545123,
+          "validation_ai_false_negative_upper_bound": 0.0990691074169561,
+          "validation_human_verdict_count": 1237,
+          "validation_human_verdict_precision": 0.5901374292643492,
+          "validation_ai_recall": 0.3846855059252507
+        },
+        "verdict_counts": {
+          "human": 5732,
+          "ai_generated": 1657,
+          "inconclusive": 7436
+        },
+        "coverage": 0.4984148397976391,
+        "inconclusive_fraction": 0.5015851602023609,
+        "human_false_positive_count": 203,
+        "human_denominator": 10012,
+        "human_false_positive_rate": 0.020275669196963643,
+        "human_false_positive_wilson_95_percent_interval": [
+          0.01769331491659757,
+          0.023226008787329194
+        ],
+        "specificity_for_ai_verdict": 0.9797243308030363,
+        "ai_detected_count": 1454,
+        "ai_denominator": 4813,
+        "ai_recall": 0.302098483274465,
+        "ai_precision": 0.8774894387447194,
+        "ai_generated_labelled_human_count": 413,
+        "ai_generated_human_verdict_rate": 0.08580926656970704,
+        "human_correct_count": 5319,
+        "human_recall": 0.5312624850179785,
+        "human_verdict_precision": 0.9279483600837404,
+        "decisive_error_count": 616,
+        "decisive_error_rate": 0.08336716741101638,
+        "balanced_accuracy_on_decisive": 0.8710137295682634
+      },
+      "per_collection_source": {
+        "hc3": {
+          "support": 14825,
+          "human_support": 10012,
+          "ai_support": 4813,
+          "human_false_positive_rate": 0.020275669196963643,
+          "human_false_positive_wilson_95_percent_interval": [
+            0.01769331491659757,
+            0.023226008787329194
+          ],
+          "ai_recall": 0.302098483274465,
+          "coverage": 0.4984148397976391
+        }
+      },
+      "per_sub_source": {
+        "finance": {
+          "support": 1529,
+          "human_support": 671,
+          "ai_support": 858,
+          "human_false_positive_rate": 0.014903129657228018,
+          "human_false_positive_wilson_95_percent_interval": [
+            0.00811487156897516,
+            0.027214106088025637
+          ],
+          "ai_recall": 0.3473193473193473,
+          "coverage": 0.4591236102027469
+        },
+        "medicine": {
+          "support": 487,
+          "human_support": 233,
+          "ai_support": 254,
+          "human_false_positive_rate": 0.03862660944206009,
+          "human_false_positive_wilson_95_percent_interval": [
+            0.020452414193310592,
+            0.07176733031193529
+          ],
+          "ai_recall": 0.5787401574803149,
+          "coverage": 0.4394250513347023
+        },
+        "open_qa": {
+          "support": 792,
+          "human_support": 205,
+          "ai_support": 587,
+          "human_false_positive_rate": 0.024390243902439025,
+          "human_false_positive_wilson_95_percent_interval": [
+            0.01046203106616999,
+            0.05581532065726364
+          ],
+          "ai_recall": 0.29982964224872233,
+          "coverage": 0.3106060606060606
+        },
+        "reddit_eli5": {
+          "support": 11734,
+          "human_support": 8773,
+          "ai_support": 2961,
+          "human_false_positive_rate": 0.020061552490596147,
+          "human_false_positive_wilson_95_percent_interval": [
+            0.017330772773301705,
+            0.02321245231401883
+          ],
+          "ai_recall": 0.25295508274231676,
+          "coverage": 0.5184932674279871
+        },
+        "wiki_csai": {
+          "support": 283,
+          "human_support": 130,
+          "ai_support": 153,
+          "human_false_positive_rate": 0.023076923076923078,
+          "human_false_positive_wilson_95_percent_interval": [
+            0.007878820373649925,
+            0.06565189953488466
+          ],
+          "ai_recall": 0.5490196078431373,
+          "coverage": 0.5053003533568905
+        }
+      },
+      "per_generator_or_human_metadata": {
+        "gpt-35": {
+          "support": 4813,
+          "human_support": 0,
+          "ai_support": 4813,
+          "human_false_positive_rate": null,
+          "human_false_positive_wilson_95_percent_interval": null,
+          "ai_recall": 0.302098483274465,
+          "coverage": 0.38790774984417203
+        },
+        "human": {
+          "support": 10012,
+          "human_support": 10012,
+          "ai_support": 0,
+          "human_false_positive_rate": 0.020275669196963643,
+          "human_false_positive_wilson_95_percent_interval": [
+            0.01769331491659757,
+            0.023226008787329194
+          ],
+          "ai_recall": null,
+          "coverage": 0.5515381542149421
+        }
+      }
+    }
+  },
+  "calibration": {
+    "calibration_fit_partition_size": 4999,
+    "raw_probability_diagnostics": {
+      "brier_score": 0.19261723242451054,
+      "expected_calibration_error": 0.20854845563951258,
+      "calibration_bins": [
+        {
+          "lower": 0.0,
+          "upper": 0.1,
+          "count": 102,
+          "mean_predicted_probability": 0.07919127966186985,
+          "observed_ai_fraction": 0.0
+        },
+        {
+          "lower": 0.1,
+          "upper": 0.2,
+          "count": 836,
+          "mean_predicted_probability": 0.15885533973436916,
+          "observed_ai_fraction": 0.017942583732057416
+        },
+        {
+          "lower": 0.2,
+          "upper": 0.30000000000000004,
+          "count": 1604,
+          "mean_predicted_probability": 0.2535729771201103,
+          "observed_ai_fraction": 0.04239401496259352
+        },
+        {
+          "lower": 0.30000000000000004,
+          "upper": 0.4,
+          "count": 2083,
+          "mean_predicted_probability": 0.35173155020005026,
+          "observed_ai_fraction": 0.08833413346135381
+        },
+        {
+          "lower": 0.4,
+          "upper": 0.5,
+          "count": 2167,
+          "mean_predicted_probability": 0.4503532975987776,
+          "observed_ai_fraction": 0.15459160129210892
+        },
+        {
+          "lower": 0.5,
+          "upper": 0.6000000000000001,
+          "count": 2199,
+          "mean_predicted_probability": 0.550003653998595,
+          "observed_ai_fraction": 0.2705775352432924
+        },
+        {
+          "lower": 0.6000000000000001,
+          "upper": 0.7000000000000001,
+          "count": 2022,
+          "mean_predicted_probability": 0.648156592716413,
+          "observed_ai_fraction": 0.39218595450049454
+        },
+        {
+          "lower": 0.7000000000000001,
+          "upper": 0.8,
+          "count": 1830,
+          "mean_predicted_probability": 0.7487124489551373,
+          "observed_ai_fraction": 0.6180327868852459
+        },
+        {
+          "lower": 0.8,
+          "upper": 0.9,
+          "count": 1449,
+          "mean_predicted_probability": 0.84720583913057,
+          "observed_ai_fraction": 0.8129744651483782
+        },
+        {
+          "lower": 0.9,
+          "upper": 1.0,
+          "count": 533,
+          "mean_predicted_probability": 0.9328872383774425,
+          "observed_ai_fraction": 0.9643527204502814
+        }
+      ]
+    },
+    "platt_calibrated_probability_diagnostics": {
+      "brier_score": 0.21363639348846836,
+      "expected_calibration_error": 0.2501188796656876,
+      "calibration_bins": [
+        {
+          "lower": 0.0,
+          "upper": 0.1,
+          "count": 302,
+          "mean_predicted_probability": 0.07203766811395554,
+          "observed_ai_fraction": 0.0033112582781456954
+        },
+        {
+          "lower": 0.1,
+          "upper": 0.2,
+          "count": 1022,
+          "mean_predicted_probability": 0.15381692968708127,
+          "observed_ai_fraction": 0.018590998043052837
+        },
+        {
+          "lower": 0.2,
+          "upper": 0.30000000000000004,
+          "count": 1338,
+          "mean_predicted_probability": 0.2518222167137004,
+          "observed_ai_fraction": 0.052316890881913304
+        },
+        {
+          "lower": 0.30000000000000004,
+          "upper": 0.4,
+          "count": 1568,
+          "mean_predicted_probability": 0.34988126409555875,
+          "observed_ai_fraction": 0.07908163265306123
+        },
+        {
+          "lower": 0.4,
+          "upper": 0.5,
+          "count": 1638,
+          "mean_predicted_probability": 0.4489299297728928,
+          "observed_ai_fraction": 0.14163614163614163
+        },
+        {
+          "lower": 0.5,
+          "upper": 0.6000000000000001,
+          "count": 1712,
+          "mean_predicted_probability": 0.550693005054745,
+          "observed_ai_fraction": 0.1933411214953271
+        },
+        {
+          "lower": 0.6000000000000001,
+          "upper": 0.7000000000000001,
+          "count": 1796,
+          "mean_predicted_probability": 0.6510543051304463,
+          "observed_ai_fraction": 0.3040089086859688
+        },
+        {
+          "lower": 0.7000000000000001,
+          "upper": 0.8,
+          "count": 1802,
+          "mean_predicted_probability": 0.750007947258188,
+          "observed_ai_fraction": 0.4167591564927858
+        },
+        {
+          "lower": 0.8,
+          "upper": 0.9,
+          "count": 1947,
+          "mean_predicted_probability": 0.8501006280428017,
+          "observed_ai_fraction": 0.6450950179763739
+        },
+        {
+          "lower": 0.9,
+          "upper": 1.0,
+          "count": 1700,
+          "mean_predicted_probability": 0.9425980821610858,
+          "observed_ai_fraction": 0.8723529411764706
+        }
+      ]
+    },
+    "interpretation": "Use the decision score and validation risk thresholds in the app. Calibration diagnostics are not sufficient to claim probability reliability."
+  },
+  "versions": {
+    "python": "3.14.3",
+    "datasets": "5.0.1",
+    "scikit_learn": "1.9.1",
+    "numpy": "2.5.3",
+    "joblib": "1.6.0"
+  },
+  "limitations": [
+    "The external result is a held-out collection source within this dataset, not an independently curated benchmark corpus.",
+    "The HC3 rows may share upstream text, prompts, or generation processes with other collections despite source separation.",
+    "Near-duplicate detection is not performed; exact duplicate hashing and source group separation are used.",
+    "Thresholds are selected on one group-held-out validation fold and may not transport to new domains or generators.",
+    "A score threshold is not an authorship probability. Calibrated probability diagnostics are reported separately and are not assumed reliable.",
+    "A detector can learn topic, collection, and generation artifacts; model-derived feature contributions describe score evidence, not authorship proof."
+  ]
+}
